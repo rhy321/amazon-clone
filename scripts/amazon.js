@@ -2,6 +2,11 @@
 //2. generate the html
 //3. Make it interactive
 
+// import {cart as myCart} from '../data/cart.js';
+import {cart} from '../data/cart.js';
+import {products} from '../data/products.js';
+
+
 let productHtml = '';
 products.forEach((product) => {
 
