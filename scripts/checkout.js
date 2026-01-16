@@ -110,8 +110,6 @@ document.querySelectorAll('.js-delete-quantity-link')
       const container = document.querySelector(`.js-cart-item-container-${productId}`);
 
       container.remove();
-
-      console.log(container);
     });
   });
 
