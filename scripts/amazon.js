@@ -45,7 +45,7 @@ products.forEach((product) => {
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="js-added-to-cart-${product.id} added-to-cart">
             <img src="images/icons/checkmark.png">
             Added
           </div>
@@ -63,11 +63,14 @@ products.forEach((product) => {
 document.querySelector('.js-products-grid')
   .innerHTML = productHtml;
 
+let timeoutId;
+
 document.querySelectorAll('.js-add-to-cart')
   .forEach((button) => {
     button.addEventListener('click', () => {
-        const productId = button.dataset.productId;
-        const selectedQty = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
+        //const productId= button.dataset.productId;
+        const {productId}= button.dataset;
+        const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
 
         // console.log(selectedQty);
 
@@ -80,13 +83,25 @@ document.querySelectorAll('.js-add-to-cart')
         });
 
         if (matchingItem){
-            matchingItem.quantity += selectedQty;
+            matchingItem.quantity += quantity;
         } else {
             cart.push({
               productId,
-              quantity: selectedQty
+              quantity
             })
         }
+
+        const addedToCart = document.querySelector(`.js-added-to-cart-${productId}`);
+
+        if (!addedToCart.classList.contains('toggle-on')){
+          addedToCart.classList.add('toggle-on');
+        }
+
+        clearTimeout(timeoutId)
+
+        timeoutId = setTimeout(() => {
+          addedToCart.classList.remove('toggle-on');
+        }, 2000);
 
         let cartQty = 0;
 
@@ -97,8 +112,7 @@ document.querySelectorAll('.js-add-to-cart')
         document.querySelector('.js-cart-quantity')
           .innerHTML = cartQty;
 
-        // console.log(cart);
+        //console.log(cart);
 
     });
   });
-
