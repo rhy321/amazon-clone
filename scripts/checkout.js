@@ -1,4 +1,4 @@
-import {cart, removeFromCart} from '../data/cart.js';
+import {cart, removeFromCart, getCartQty} from '../data/cart.js';
 import { products } from '../data/products.js';
 //utils is in current folder
 import {formatCurrency} from './utils/money.js'
@@ -106,6 +106,8 @@ document.querySelectorAll('.js-delete-quantity-link')
       const productId = link.dataset.productId;
       removeFromCart(productId);
       
+      document.querySelector('.js-return-to-home-link')
+        .innerHTML = (`${getCartQty()} items`);
 
       const container = document.querySelector(`.js-cart-item-container-${productId}`);
 
@@ -113,3 +115,5 @@ document.querySelectorAll('.js-delete-quantity-link')
     });
   });
 
+document.querySelector('.js-return-to-home-link')
+  .innerHTML = (`${getCartQty()} items`);
