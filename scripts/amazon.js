@@ -1,13 +1,17 @@
-//1. save data
+//1. save + load data
 //2. generate the html
 //3. Make it interactive
 
 // import {cart as myCart} from '../data/cart.js';
-import {cart} from '../data/cart.js';
+import {cart, addToCart } from '../data/cart.js';
+// import * from '../data/cart.js';
+
 import {products} from '../data/products.js';
 
 
 let productHtml = '';
+let timeoutId;
+
 products.forEach((product) => {
 
   productHtml += `
@@ -65,57 +69,45 @@ products.forEach((product) => {
   
 });
 
+
+function addedConfirmation(productId){
+  const addedToCart = document.querySelector(`.js-added-to-cart-${productId}`);
+
+  if (!addedToCart.classList.contains('toggle-on')){
+    addedToCart.classList.add('toggle-on');
+  }
+
+  clearTimeout(timeoutId)
+
+  timeoutId = setTimeout(() => {
+    addedToCart.classList.remove('toggle-on');
+  }, 2000);
+}
+
+function updateCartQty(){
+  let cartQty = 0;
+
+  cart.forEach((cartItem) => {
+    cartQty += cartItem.quantity;
+  });
+
+  document.querySelector('.js-cart-quantity')
+    .innerHTML = cartQty;
+
+}
+
 document.querySelector('.js-products-grid')
   .innerHTML = productHtml;
 
-let timeoutId;
-
 document.querySelectorAll('.js-add-to-cart')
-  .forEach((button) => {
-    button.addEventListener('click', () => {
-        //const productId= button.dataset.productId;
-        const {productId}= button.dataset;
-        const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
+  .forEach((addToCartButton) => {
+    addToCartButton.addEventListener('click', () => {
+        //const productId= addToCartButton.dataset.productId;
+        const {productId}= addToCartButton.dataset;
 
-        // console.log(selectedQty);
-
-        let matchingItem;
-
-        cart.forEach((item) => {
-          if (item.productId === productId){
-            matchingItem = item;
-          }
-        });
-
-        if (matchingItem){
-            matchingItem.quantity += quantity;
-        } else {
-            cart.push({
-              productId,
-              quantity
-            })
-        }
-
-        const addedToCart = document.querySelector(`.js-added-to-cart-${productId}`);
-
-        if (!addedToCart.classList.contains('toggle-on')){
-          addedToCart.classList.add('toggle-on');
-        }
-
-        clearTimeout(timeoutId)
-
-        timeoutId = setTimeout(() => {
-          addedToCart.classList.remove('toggle-on');
-        }, 2000);
-
-        let cartQty = 0;
-
-        cart.forEach((item) => {
-          cartQty += item.quantity;
-        });
-
-        document.querySelector('.js-cart-quantity')
-          .innerHTML = cartQty;
+        addToCart(productId);
+        addedConfirmation(productId);
+        updateCartQty();
 
         //console.log(cart);
 
