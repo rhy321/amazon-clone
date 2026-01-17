@@ -1,7 +1,22 @@
+// {} -> named export
 import {cart, removeFromCart, getCartQty, updateQuantity} from '../data/cart.js';
 import { products } from '../data/products.js';
-//utils is in current folder
+//utils is in current folder so use one .
 import {formatCurrency} from './utils/money.js'
+
+
+//ESM module external library... default export to export only one thing from a file
+import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
+
+
+
+//external library learning
+// hello();
+const today = (dayjs());
+const deliveryDate = today.add(7, 'days');
+console.log(deliveryDate.format('dddd, MMMM D')); //check dayjs website for functions
+
+
 
 let cartSummaryHtml = '';
 
