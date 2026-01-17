@@ -47,7 +47,7 @@ cart.forEach((cartItem) => {
               Update
             </span>
 
-            <input type="number" min = "1" value = "${cartItem.quantity}" class = "quantity-input js-quantity-input-${productId}">
+            <input type="number" min = "1" max = "1000" value = "${cartItem.quantity}" class = "quantity-input js-quantity-input" data-product-id = "${productId}" data-role = "quantityInput" >
 
             <span class="save-quantity-link link-primary js-save-quantity-link" data-product-id = "${productId}" >
               Save
@@ -123,21 +123,19 @@ document.querySelectorAll(".js-update-quantity-link")
 document.querySelectorAll('.js-save-quantity-link')
   .forEach((link) => {
     link.addEventListener('click', () => {
-      const {productId} = link.dataset;
-      document.querySelector(`.js-cart-item-container-${productId}`)
-        .classList.remove('is-editing-quantity');
-
-      const newQty = Number(document.querySelector(`.js-quantity-input-${productId}`).value);
-
-      updateQuantity(productId, newQty);
-
-      document.querySelector('.js-return-to-home-link')
-        .innerHTML = (`${getCartQty()} items`);
-
-      document.querySelector(`.js-quantity-label-${productId}`)
-        .innerHTML = newQty;
+      updateSave(link)
     });
   });
+
+document.querySelectorAll('.js-quantity-input')
+  .forEach((inputBox) => {
+    inputBox.addEventListener('keydown', (k) => {
+      if (k.key === 'Enter'){
+        updateSave(inputBox);
+      }
+    });
+  })
+
 
 document.querySelectorAll('.js-delete-quantity-link')
   .forEach((link) => {
@@ -156,3 +154,27 @@ document.querySelectorAll('.js-delete-quantity-link')
 
 document.querySelector('.js-return-to-home-link')
   .innerHTML = (`${getCartQty()} items`);
+
+
+  function updateSave(link) {
+      const {productId} = link.dataset;
+
+      const newQty = Number(document.querySelector(`[data-product-id = "${productId}"][data-role = "quantityInput"]`).value);
+
+      if (newQty > 0 && newQty < 1000){
+        updateQuantity(productId, newQty);
+
+        document.querySelector(`.js-cart-item-container-${productId}`)
+          .classList.remove('is-editing-quantity');
+
+        document.querySelector('.js-return-to-home-link')
+          .innerHTML = (`${getCartQty()} items`);
+
+        document.querySelector(`.js-quantity-label-${productId}`)
+          .innerHTML = newQty;
+      }
+
+      else {
+        alert('Invalid Quantity');
+      }
+  }
