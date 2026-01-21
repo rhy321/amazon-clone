@@ -3,7 +3,7 @@
 //3. Make it interactive
 
 // import {cart as myCart} from '../data/cart.js';
-import {cart, addToCart, getCartQty} from '../data/cart.js';
+import {addToCart, getCartQty} from '../data/cart.js';
 // import * from '../data/cart.js';
 
 import {products} from '../data/products.js';

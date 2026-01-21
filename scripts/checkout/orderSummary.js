@@ -1,9 +1,9 @@
 // {} -> named export
 import {cart, removeFromCart, updateQuantity, updateDeliveryOption} from '../../data/cart.js';
-import { products, getProduct } from '../../data/products.js';
+import {getProduct } from '../../data/products.js';
 //utils is in current folder so use one .
 import formatCurrency from '../utils/money.js'
-import {deliveryOptions, getDeliveryOption} from '../../data/deliveryOptions.js';
+import {deliveryOptions, getDeliveryOption, formatDate} from '../../data/deliveryOptions.js';
 import {renderPaymentSummary} from './paymentSummary.js';
 import {renderCheckoutHeader} from './checkoutHeader.js'
 
@@ -92,14 +92,6 @@ export function renderOrderSummary(){
     `;
   });
 
-  function formatDate(deliveryOption){
-    const today = dayjs();   
-    const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
-    const dateString = deliveryDate.format(
-        'dddd, MMMM D'
-      );
-    return dateString;
-  }
 
   function deliveryOptionsHTML(productId, cartItem) {
 
