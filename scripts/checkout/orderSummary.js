@@ -1,11 +1,11 @@
 // {} -> named export
-import {cart, removeFromCart, getCartQty, updateQuantity, updateDeliveryOption} from '../../data/cart.js';
+import {cart, removeFromCart, updateQuantity, updateDeliveryOption} from '../../data/cart.js';
 import { products, getProduct } from '../../data/products.js';
 //utils is in current folder so use one .
-import {formatCurrency} from '../utils/money.js'
+import formatCurrency from '../utils/money.js'
 import {deliveryOptions, getDeliveryOption} from '../../data/deliveryOptions.js';
 import {renderPaymentSummary} from './paymentSummary.js';
-
+import {renderCheckoutHeader} from './checkoutHeader.js'
 
 //ESM module external library... default export to export only one thing from a file
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
@@ -17,9 +17,14 @@ import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 const today = (dayjs());
 const deliveryDate = today.add(7, 'days');
 console.log(deliveryDate.format('dddd, MMMM D')); //check dayjs website for functions
+// console.log(today.add(10, 'days').format('MMMM, dddd D'));
+// console.log(today.add(1, 'months').format('MMMM D'));
+// console.log(today.subtract(1, 'months').format('MMMM dddd'));
 
 
 export function renderOrderSummary(){
+
+  renderCheckoutHeader();
 
   let cartSummaryHtml = '';
 
@@ -181,22 +186,15 @@ export function renderOrderSummary(){
       link.addEventListener('click', () => {
         const productId = link.dataset.productId;
         removeFromCart(productId);
-        
-        document.querySelector('.js-return-to-home-link')
-          .innerHTML = (`${getCartQty()} items`);
 
         const container = document.querySelector(`.js-cart-item-container-${productId}`);
 
         container.remove();
         
+        renderOrderSummary();
         renderPaymentSummary();
       });
     });
-
-
-
-  document.querySelector('.js-return-to-home-link')
-    .innerHTML = (`${getCartQty()} items`);
 
 
   //for changing quantity
