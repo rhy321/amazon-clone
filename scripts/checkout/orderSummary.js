@@ -1,9 +1,10 @@
 // {} -> named export
 import {cart, removeFromCart, getCartQty, updateQuantity, updateDeliveryOption} from '../../data/cart.js';
-import { products } from '../../data/products.js';
+import { products, getProduct } from '../../data/products.js';
 //utils is in current folder so use one .
 import {formatCurrency} from '../utils/money.js'
-import {deliveryOptions} from '../../data/deliveryOptions.js';
+import {deliveryOptions, getDeliveryOption} from '../../data/deliveryOptions.js';
+import {renderPaymentSummary} from './paymentSummary.js';
 
 
 //ESM module external library... default export to export only one thing from a file
@@ -27,23 +28,11 @@ export function renderOrderSummary(){
     const productId = cartItem.productId;
 
 
-    let matchingProduct;
+    const matchingProduct = getProduct(productId);
 
-    products.forEach((product) => {
-      if (productId === product.id){
-        matchingProduct = product;
-      }
-    });
-
-
-    let deliveryOption;
-
-    deliveryOptions.forEach((option) => {
-      if (option.id === cartItem.deliveryOptionId) {
-        deliveryOption = option;  //saves an object (option) from deliveryOptions.js
-      }
-    });
+    const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
     
+
     cartSummaryHtml += `
         <div class="cart-item-container js-cart-item-container-${productId}">
         <div class="delivery-date">
@@ -153,6 +142,7 @@ export function renderOrderSummary(){
         const {productId, deliveryOptionId} = element.dataset;
         updateDeliveryOption(productId, deliveryOptionId);
         renderOrderSummary();
+        renderPaymentSummary();
       });
     });
 
@@ -207,6 +197,7 @@ export function renderOrderSummary(){
     .innerHTML = (`${getCartQty()} items`);
 
 
+  //for changing quantity
   function updateSave(link) {
       const {productId} = link.dataset;
 
@@ -224,7 +215,8 @@ export function renderOrderSummary(){
         // document.querySelector(`.js-quantity-label-${productId}`)
         //   .innerHTML = newQty;
 
-        renderOrderSummary()
+        renderOrderSummary();
+        renderPaymentSummary();
       }
 
       else {
@@ -232,4 +224,3 @@ export function renderOrderSummary(){
       }
   }
 }
-
