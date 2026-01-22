@@ -103,7 +103,9 @@ document.querySelectorAll('.js-add-to-cart')
         //const productId= addToCartButton.dataset.productId;
         const {productId}= addToCartButton.dataset;
 
-        addToCart(productId);
+        const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
+
+        addToCart(productId, quantity);
         addedConfirmation(productId);
         updateCartQty();
 
