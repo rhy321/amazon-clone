@@ -1,4 +1,4 @@
-export let cart;
+export let cart; //export let cart = undefined;
 
 loadFromStorage();
 
