@@ -11,7 +11,6 @@ import {renderCheckoutHeader} from './checkoutHeader.js'
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 
 
-
 //external library learning
 // hello();
 const today = (dayjs());
@@ -24,7 +23,7 @@ console.log(deliveryDate.format('dddd, MMMM D')); //check dayjs website for func
 
 export function renderOrderSummary(){
 
-  renderCheckoutHeader();
+  // renderCheckoutHeader();
 
   let cartSummaryHtml = '';
 
@@ -209,6 +208,7 @@ export function renderOrderSummary(){
 
         renderOrderSummary();
         renderPaymentSummary();
+        renderCheckoutHeader();
       }
 
       else {
