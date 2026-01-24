@@ -59,9 +59,10 @@ export function removeFromCart(productId) {
     }
   });
 
-  cart = newCart;
-  saveToStorage();
-
+  if (cart.length !== newCart.length){
+    cart = newCart;
+    saveToStorage();
+  }
 }
 
 export function getCartQty() {
