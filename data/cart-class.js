@@ -1,14 +1,14 @@
 class Cart {
   cartItems;
-  localStorageKey;
+  #localStorageKey;
 
   constructor(localStorageKey){       //setup code
-    this.localStorageKey = localStorageKey;
-    this.loadFromStorage();
+    this.#localStorageKey = localStorageKey;
+    this.#loadFromStorage();
   }
 
-  loadFromStorage() {
-    this.cartItems = JSON.parse(localStorage.getItem(this.localStorageKey));
+  #loadFromStorage() {
+    this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey));
 
     if (!this.cartItems) {
 
@@ -26,7 +26,7 @@ class Cart {
   }
 
   saveToStorage() {
-      localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItems));
+      localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems));
   }
 
   addToCart(productId, quantity){
@@ -112,6 +112,8 @@ const businessCart = new Cart('cart-business');
 cart.addToCart('19c6a64a-5463-4d45-9af8-e41140a4100c', 1);
 console.log(cart);
 
+// why we need private methods in classes
+//cart.#localStorageKey = 'smth_different';
 
 console.log(businessCart);
 console.log(businessCart instanceof Cart);
