@@ -142,6 +142,15 @@ describe('test suite: updateDeliveryOption', () => {
 
     expect(localStorage.setItem).toHaveBeenCalledTimes(0);
     expect(cart).toEqual(oldCart);
-;    
+  });
+
+  it('does not update cart for Delivery ID doesn\'t exist', () => {
+
+    const oldCart = cart.slice();
+    
+    updateDeliveryOption(prod1, '4');
+
+    expect(localStorage.setItem).toHaveBeenCalledTimes(0);
+    expect(cart).toEqual(oldCart);
   });
 });
