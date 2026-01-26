@@ -98,6 +98,10 @@ export function updateDeliveryOption(productId, delOptId){
     }
    });
 
+   if (matchingItem === undefined){
+    return;
+   }
+
    matchingItem.deliveryOptionId = delOptId;
 
    saveToStorage();

@@ -83,7 +83,7 @@ describe('Test Suite: renderOrderSummary',() => {
     expect(document.querySelector('.js-payment-summary-total').innerText).toContain('69.00');
   });
 
-  // afterEach(() => {
-  //   document.querySelector('.js-test-container').innerHTML = ``;
-  // })
+  afterEach(() => {
+    document.querySelector('.js-test-container').innerHTML = ``;
+  })
 });
