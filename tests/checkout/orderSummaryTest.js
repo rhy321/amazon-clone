@@ -19,6 +19,7 @@ describe('Test Suite: renderOrderSummary',() => {
       <div class = "js-return-to-home-link"></div
     `;
 
+    //get a fake cart
     spyOn(localStorage, 'getItem').and.callFake(() => {
       return JSON.stringify([{
         productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -64,11 +65,25 @@ describe('Test Suite: renderOrderSummary',() => {
 
     expect(cart.length).toEqual(1);
     expect(cart[0].productId).toEqual(prodId2);
-
     
   });
 
-  afterEach(() => {
-    document.querySelector('.js-test-container').innerHTML = ``;
-  })
+  it('updates delivery option', () => {
+    document.querySelector(`.js-delivery-option-${prodId1}-3`).click();
+
+    expect(document.querySelector(`.delivery-option-input-${prodId1}-3`).checked).toEqual(true);
+
+    expect(cart.length).toEqual(2);
+
+    expect(cart[0].productId).toEqual(prodId1);
+    expect(cart[0].deliveryOptionId).toEqual('3');
+
+    expect(document.querySelector('.js-payment-shipping-money').innerText).toContain('19.98');
+
+    expect(document.querySelector('.js-payment-summary-total').innerText).toContain('69.00');
+  });
+
+  // afterEach(() => {
+  //   document.querySelector('.js-test-container').innerHTML = ``;
+  // })
 });

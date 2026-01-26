@@ -32,7 +32,7 @@ class Product {
   }
 
   getPrice(){
-    return `$${formatCurrency(this.priceCents)}`;
+    return `${formatCurrency(this.priceCents)}`;
   }
 
   extraInfoHtml(){
