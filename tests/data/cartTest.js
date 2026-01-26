@@ -107,6 +107,7 @@ describe('test suite: removeFromCart', () => {
 describe('test suite: updateDeliveryOption', () => {
 
   const prod1 = "e43638ce-6aa0-4b85-b27f-e1d07eb678c6";
+  const prod2 = "15b6fc6f-327a-4ec4-896f-486349e85a3d";
 
   beforeEach(() => {
     spyOn(localStorage, 'setItem');
@@ -123,13 +124,14 @@ describe('test suite: updateDeliveryOption', () => {
           deliveryOptionId: '3'
         }
       ]);
-    })
+    });
+    loadFromStorage();
   });
 
   it('updates delivery option in cart', () => {
-    updateDeliveryOption(prod1, '3');
+    updateDeliveryOption(prod2, '2');
 
-    expect(cart[0].deliveryOptionId).toEqual('3');
+    expect(cart[1].deliveryOptionId).toEqual('2');
 
     expect(localStorage.setItem).toHaveBeenCalledTimes(1);
   });
