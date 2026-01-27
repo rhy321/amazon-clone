@@ -106,7 +106,7 @@ export function loadProductsFetch() {
 
   }).then((productsData) => {
 
-    console.log(typeof productsData);
+    console.log(`typeof productsData: ${typeof productsData}`);
 
     products = productsData.map((productDetails) => {
       if(productDetails.type === "clothing"){
