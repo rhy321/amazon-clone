@@ -109,7 +109,7 @@ export function loadProducts(func) {
       return new Product(productDetails);
     });
 
-    console.log('load prods');
+    console.log('load products');
     func();
   });
 
