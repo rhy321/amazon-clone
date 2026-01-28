@@ -18,6 +18,10 @@ export class Cart {
     }
   }
 
+  resetCartFromStorage() {
+    this.#loadFromStorage();
+  }
+
   cartIsEmpty(){
     if (!this.cartItems) {
       return true;
@@ -120,7 +124,7 @@ export class Cart {
   }
 }
 
-export const cart = new Cart('cart-oop');
+export const cart = new Cart('cart');
 // const businessCart = new Cart('cart-business');
 
 console.log(cart);

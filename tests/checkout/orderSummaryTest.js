@@ -1,6 +1,6 @@
 import { renderOrderSummary } from "../../scripts/checkout/orderSummary.js";
-import { loadFromStorage, cart } from "../../data/cart.js";
-import { loadProducts, loadProductsFetch } from "../../data/products.js";
+import {cart} from '../../data/cart-class.js';
+import { /*loadProducts,*/ loadProductsFetch } from "../../data/products.js";
 
 //intergration tests
 
@@ -49,7 +49,7 @@ describe('Test Suite: renderOrderSummary',() => {
       }]);
     });
     
-    loadFromStorage();
+    cart.resetCartFromStorage();
     renderOrderSummary();
   });
 
@@ -80,8 +80,8 @@ describe('Test Suite: renderOrderSummary',() => {
       document.querySelector(`.js-cart-item-container-${prodId2}`)
     ).not.toEqual(null);
 
-    expect(cart.length).toEqual(1);
-    expect(cart[0].productId).toEqual(prodId2);
+    expect(cart.cartItems.length).toEqual(1);
+    expect(cart.cartItems[0].productId).toEqual(prodId2);
     
   });
 
@@ -90,10 +90,10 @@ describe('Test Suite: renderOrderSummary',() => {
 
     expect(document.querySelector(`.delivery-option-input-${prodId1}-3`).checked).toEqual(true);
 
-    expect(cart.length).toEqual(2);
+    expect(cart.cartItems.length).toEqual(2);
 
-    expect(cart[0].productId).toEqual(prodId1);
-    expect(cart[0].deliveryOptionId).toEqual('3');
+    expect(cart.cartItems[0].productId).toEqual(prodId1);
+    expect(cart.cartItems[0].deliveryOptionId).toEqual('3');
 
     expect(document.querySelector('.js-payment-shipping-money').innerText).toContain('19.98');
 
