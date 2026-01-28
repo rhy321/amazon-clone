@@ -1,4 +1,6 @@
-class Cart {
+import {deliveryOptions} from './deliveryOptions.js';
+
+export class Cart {
   cartItems;
   #localStorageKey;
 
@@ -10,18 +12,18 @@ class Cart {
   #loadFromStorage() {
     this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey));
 
-    if (!this.cartItems) {
+    if (this.cartIsEmpty()) {
 
-      // cart = [];
-      this.cartItems = [{
-        productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-        quantity: 2,
-        deliveryOptionId: '1'
-      }, {
-        productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-        quantity: 3,
-        deliveryOptionId: '3'
-      }];
+      this.cartItems = [];
+    }
+  }
+
+  cartIsEmpty(){
+    if (!this.cartItems) {
+      return true;
+    }
+    else {
+      return false;
     }
   }
 
@@ -79,7 +81,7 @@ class Cart {
     return cartQty;
   }
 
-    updateQuantity(productId, newQty){
+  updateQuantity(productId, newQty){
       
     this.cartItems.forEach((cartItem) => {
       if(cartItem.productId === productId){
@@ -92,6 +94,13 @@ class Cart {
   updateDeliveryOption(productId, delOptId){
 
     let matchingItem;
+    let matchingDeliveryID;
+
+    deliveryOptions.forEach((deliveryOption) => {
+      if(deliveryOption.id === delOptId){
+        matchingDeliveryID = delOptId
+      }
+    });
 
     this.cartItems.forEach((cartItem) => {
       if (cartItem.productId === productId){
@@ -99,21 +108,25 @@ class Cart {
       }
     });
 
-    matchingItem.deliveryOptionId = delOptId;
+
+  if (matchingItem === undefined || matchingDeliveryID === undefined){
+    return;
+  }
+
+    matchingItem.deliveryOptionId = matchingDeliveryID;
 
     this.saveToStorage();
 
   }
 }
 
-const cart = new Cart('cart-oop');
-const businessCart = new Cart('cart-business');
+export const cart = new Cart('cart-oop');
+// const businessCart = new Cart('cart-business');
 
-cart.addToCart('19c6a64a-5463-4d45-9af8-e41140a4100c', 1);
 console.log(cart);
 
 // why we need private methods in classes
 //cart.#localStorageKey = 'smth_different';
 
-console.log(businessCart);
-console.log(businessCart instanceof Cart);
+// console.log(businessCart);
+// console.log(businessCart instanceof Cart);

@@ -1,11 +1,12 @@
 // {} -> named export
-import {cart, removeFromCart, updateQuantity, updateDeliveryOption} from '../../data/cart.js';
+// import {cart, removeFromCart, updateQuantity, updateDeliveryOption} from '../../data/cart.js';
+import {cart} from '../../data/cart-class.js';
 import {getProduct } from '../../data/products.js';
 //utils is in current folder so use one .
-import formatCurrency from '../utils/money.js'
+import formatCurrency from '../utils/money.js';
 import {deliveryOptions, getDeliveryOption, formatDate} from '../../data/deliveryOptions.js';
 import {renderPaymentSummary} from './paymentSummary.js';
-import {renderCheckoutHeader} from './checkoutHeader.js'
+import {renderCheckoutHeader} from './checkoutHeader.js';
 
 //ESM module external library... default export to export only one thing from a file
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
@@ -27,7 +28,7 @@ export function renderOrderSummary(){
 
   let cartSummaryHtml = '';
 
-  cart.forEach((cartItem) => {
+  cart.cartItems.forEach((cartItem) => {
 
     const productId = cartItem.productId;
 
@@ -137,7 +138,7 @@ export function renderOrderSummary(){
     .forEach((element) => {
       element.addEventListener('click', () => {
         const {productId, deliveryOptionId} = element.dataset;
-        updateDeliveryOption(productId, deliveryOptionId);
+        cart.updateDeliveryOption(productId, deliveryOptionId);
         renderOrderSummary();
         renderPaymentSummary();
       });
@@ -177,7 +178,7 @@ export function renderOrderSummary(){
     .forEach((link) => {
       link.addEventListener('click', () => {
         const productId = link.dataset.productId;
-        removeFromCart(productId);
+        cart.removeFromCart(productId);
 
         const container = document.querySelector(`.js-cart-item-container-${productId}`);
 
@@ -196,7 +197,7 @@ export function renderOrderSummary(){
       const newQty = Number(document.querySelector(`[data-product-id = "${productId}"][data-role = "quantityInput"]`).value);
 
       if (newQty > 0 && newQty < 1000){
-        updateQuantity(productId, newQty);
+        cart.updateQuantity(productId, newQty);
 
         document.querySelector(`.js-cart-item-container-${productId}`)
           .classList.remove('is-editing-quantity');

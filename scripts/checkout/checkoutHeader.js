@@ -1,6 +1,7 @@
-import {getCartQty} from '../../data/cart.js';
+// import {getCartQty} from '../../data/cart.js';
+import {cart} from '../../data/cart-class.js';
 
 export function renderCheckoutHeader(){
   document.querySelector('.js-return-to-home-link')
-    .innerHTML = (`${getCartQty()} items`);
+    .innerHTML = (`${cart.getCartQty()} items`);
 }

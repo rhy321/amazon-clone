@@ -1,16 +1,19 @@
-import {cart} from '../../data/cart.js';
+// import {cart} from '../../data/cart.js';
+import {cart} from '../../data/cart-class.js';
 import { getProduct } from '../../data/products.js';
 import { getDeliveryOption } from '../../data/deliveryOptions.js';
 import formatCurrency from '../utils/money.js';
 import {addOrder} from '../../data/orders.js'
 
 export function renderPaymentSummary() {
+
+  // checkIfEmpty()
+
   let productPriceCents = 0;
   let shippingPriceCents = 0;
-  let qty = 0;
+  const qty = cart.getCartQty();
 
-  cart.forEach(cartItem => {
-    qty += cartItem.quantity;
+  cart.cartItems.forEach(cartItem => {
 
     const product = getProduct(cartItem.productId);
     productPriceCents += product.priceCents * cartItem.quantity;
@@ -64,28 +67,42 @@ export function renderPaymentSummary() {
   document.querySelector('.js-payment-summary')
     .innerHTML = paymentSummaryHtml;
 
-    document.querySelector('.js-place-order')
-      .addEventListener('click', async () => {
+  document.querySelector('.js-place-order')
+    .addEventListener('click', async () => {
 
-        try {
+      try {
 
-          const response = await fetch('https://supersimplebackend.dev/orders', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            cart: cart
-          })
-        });
-
-        const order = await response.json();
-        addOrder(order);
-
-        } catch (error) {
-          console.log('Unexpected error. Try again later');
-        }
-        
-        window.location.href = 'orders.html';
+        const response = await fetch('https://supersimplebackend.dev/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          cart: cart.cartItems
+        })
       });
+
+      const order = await response.json();
+      addOrder(order);
+
+      } catch (error) {
+        console.log('Unexpected error. Try again later');
+      }
+      
+      window.location.href = 'orders.html';
+    });
+
+    // function checkIfEmpty() {
+    //   const orderBtn = document.querySelector('.js-place-order');
+    //   if ( cart.cartIsEmpty ) {
+    //     if (!orderBtn.classList.contains('js-place-order-disabled')){
+    //       orderBtn.classList.add('js-place-order-disabled');
+    //     }
+    //   } else {
+    //     if (orderBtn.classList.contains('js-place-order-disabled')){
+    //       orderBtn.classList.remove('js-place-order-disabled');
+    //     }
+    //   }
+    // }
+
 }

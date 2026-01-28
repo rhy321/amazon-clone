@@ -3,9 +3,9 @@
 //3. Make it interactive
 
 // import {cart as myCart} from '../data/cart.js';
-import {addToCart, getCartQty} from '../data/cart.js';
+// import {addToCart, getCartQty} from '../data/cart.js';
 // import * from '../data/cart.js';
-
+import {cart} from '../data/cart-class.js';
 import {products, loadProducts} from '../data/products.js';
 
 // import { formatCurrency } from './utils/money.js';
@@ -96,7 +96,8 @@ function renderProductsGrid() {
   function updateCartQty(){
 
     document.querySelector('.js-cart-quantity')
-      .innerHTML = getCartQty();
+      .innerHTML = cart.getCartQty();
+
   }
 
   document.querySelector('.js-products-grid')
@@ -110,7 +111,7 @@ function renderProductsGrid() {
 
           const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
 
-          addToCart(productId, quantity);
+          cart.addToCart(productId, quantity);
           addedConfirmation(productId);
           updateCartQty();
 
