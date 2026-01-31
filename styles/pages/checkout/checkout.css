@@ -248,3 +248,19 @@
   margin-top: 11px;
   margin-bottom: 15px;
 }
+
+.place-order-disabled, .place-order-disabled:hover{
+  background-color: rgb(255, 233, 123);
+  border: rgb(255, 233, 123);
+  color: rgb(77, 77, 77);
+  box-shadow: 0 2px 5px rgba(213, 217, 217, 0.5);
+}
+
+.view-products-button{
+  font-size: 15px;
+  width: 30%;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  margin-top: 11px;
+  margin-bottom: 15px; 
+}

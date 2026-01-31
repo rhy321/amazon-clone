@@ -25,8 +25,20 @@ console.log(deliveryDate.format('dddd, MMMM D')); //check dayjs website for func
 export function renderOrderSummary(){
 
   // renderCheckoutHeader();
-
   let cartSummaryHtml = '';
+
+  let cartEmptySummary = `
+      <div class="empty-cart js-empty-cart">
+        Your cart is empty.
+      </div>
+
+      <a href = "amazon.html">
+        <button class = "view-products-button button-primary">
+          View products
+        </button>
+      </a>
+    `;
+
 
   cart.cartItems.forEach((cartItem) => {
 
@@ -37,7 +49,6 @@ export function renderOrderSummary(){
 
     const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
     
-
     cartSummaryHtml += `
       <div class="cart-item-container js-cart-item-container js-cart-item-container-${productId}">
         <div class="delivery-date">
@@ -130,8 +141,14 @@ export function renderOrderSummary(){
     return deliveryHtml;
   }
 
-  document.querySelector('.js-order-summary')
-    .innerHTML = cartSummaryHtml;
+  if (cart.cartIsEmpty()){
+    document.querySelector('.js-order-summary')
+      .innerHTML = cartEmptySummary;
+  } else {
+    document.querySelector('.js-order-summary')
+      .innerHTML =  cartSummaryHtml;
+  }
+
 
 
   document.querySelectorAll('.js-delivery-option')
@@ -180,11 +197,12 @@ export function renderOrderSummary(){
         const productId = link.dataset.productId;
         cart.removeFromCart(productId);
 
-        const container = document.querySelector(`.js-cart-item-container-${productId}`);
+        // const container = document.querySelector(`.js-cart-item-container-${productId}`);
 
-        container.remove();
+        // container.remove();
         
         renderPaymentSummary();
+        renderOrderSummary();
         renderCheckoutHeader();
       });
     });

@@ -23,7 +23,7 @@ export class Cart {
   }
 
   cartIsEmpty(){
-    if (!this.cartItems) {
+    if (!this.cartItems || this.cartItems.length === 0) {
       return true;
     }
     else {

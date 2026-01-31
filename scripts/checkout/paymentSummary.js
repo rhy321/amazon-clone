@@ -7,8 +7,6 @@ import {addOrder} from '../../data/orders.js'
 
 export function renderPaymentSummary() {
 
-  // checkIfEmpty()
-
   let productPriceCents = 0;
   let shippingPriceCents = 0;
   const qty = cart.getCartQty();
@@ -67,6 +65,26 @@ export function renderPaymentSummary() {
   document.querySelector('.js-payment-summary')
     .innerHTML = paymentSummaryHtml;
 
+
+  checkIfEmpty();
+
+  function checkIfEmpty() {
+    const orderBtn = document.querySelector('.js-place-order');
+    if ( cart.cartIsEmpty() ) {
+      if (!orderBtn.classList.contains('place-order-disabled')){
+        orderBtn.classList.add('place-order-disabled');
+        orderBtn.setAttribute('disabled', true);
+      }
+    } else {
+      if (orderBtn.classList.contains('place-order-disabled')){
+        orderBtn.classList.remove('place-order-disabled');
+        orderBtn.setAttribute('disabled', false);
+
+      }
+    }
+  }
+
+
   document.querySelector('.js-place-order')
     .addEventListener('click', async () => {
 
@@ -91,18 +109,5 @@ export function renderPaymentSummary() {
       
       window.location.href = 'orders.html';
     });
-
-    // function checkIfEmpty() {
-    //   const orderBtn = document.querySelector('.js-place-order');
-    //   if ( cart.cartIsEmpty ) {
-    //     if (!orderBtn.classList.contains('js-place-order-disabled')){
-    //       orderBtn.classList.add('js-place-order-disabled');
-    //     }
-    //   } else {
-    //     if (orderBtn.classList.contains('js-place-order-disabled')){
-    //       orderBtn.classList.remove('js-place-order-disabled');
-    //     }
-    //   }
-    // }
 
 }
