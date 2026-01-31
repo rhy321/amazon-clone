@@ -37,7 +37,7 @@ export function renderOrderSummary(){
           View products
         </button>
       </a>
-    `;
+    `; 
 
 
   cart.cartItems.forEach((cartItem) => {
@@ -46,6 +46,7 @@ export function renderOrderSummary(){
 
 
     const matchingProduct = getProduct(productId);
+    console.log(`bleg: ${matchingProduct} ${matchingProduct.id}`);
 
     const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
     

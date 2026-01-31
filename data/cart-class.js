@@ -35,6 +35,11 @@ export class Cart {
       localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems));
   }
 
+  emptyCart() {
+    this.cartItems = [];
+    this.saveToStorage();
+  }
+
   addToCart(productId, quantity){
           
       let matchingItem;
@@ -113,9 +118,9 @@ export class Cart {
     });
 
 
-  if (matchingItem === undefined || matchingDeliveryID === undefined){
-    return;
-  }
+    if (matchingItem === undefined || matchingDeliveryID === undefined){
+      return;
+    }
 
     matchingItem.deliveryOptionId = matchingDeliveryID;
 
